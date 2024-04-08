@@ -1,0 +1,56 @@
+/* styles.css */
+
+textarea {
+    width: 100%;
+    max-width: 500px;
+    height: 100px;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+input[type="submit"] {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #e09bde;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #baaced;
+}
+
+/* Additional styles added for center alignment */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font change */
+}
+
+form {
+    margin-top: 20px;
+}
+
+.submit-button {
+    margin-top: 10px;
+}
+
+#summaryContainer {
+    margin-top: 20px;
+}
+
+#imageContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
