@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustrate my text</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Illustrate my text</h1>
+        <form id="textForm">
+            <label for="textInput">Enter your text:</label><br>
+            <textarea id="textInput" name="textInput" rows="4" cols="50"></textarea><br>
+            <input type="submit" value="Submit" class="submit-button">
+        </form>
+
+        <div id="summaryContainer"></div>
+        <div id="imageContainer"></div>
+    </div>
+
+    <script>
+        document.getElementById("textForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Get the text from the textarea
+            var text = document.getElementById("textInput").value;
+
+            console.log("Sending request to generate summary");
+            console.log("Text:", text);
+
+            // Send text to server for summarization
+            fetch(`/generate_summary`, {
+                method: 'POST',
+                body: JSON.stringify({ text: text }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Received summarized text:", data);
+                // Display the summarized text on the page
+                var summaryContainer = document.getElementById("summaryContainer");
+                summaryContainer.innerHTML = `<p>Summarized text:</p><p>${data.summarized_text}</p>`;
+
+                // Fetch image from Unsplash API based on the summarized text
+                var word = data.summarized_text.split(' ')[0]; // Use the first word of the summary as the query
+                fetch(`https://api.unsplash.com/photos/random?query=${word}&client_id=<PASTE YOUR UNSPLASH API KEY HERE>`)
+                .then(response => response.json())
+                .then(imageData => {
+                    // Display the image on the page
+                    var imageContainer = document.getElementById("imageContainer");
+                    imageContainer.innerHTML = `<img src="${imageData.urls.regular}" alt="${word}">`;
+                })
+                .catch(error => {
+                    console.error('Error fetching image:', error);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
